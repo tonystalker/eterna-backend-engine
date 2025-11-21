@@ -21,7 +21,7 @@ interface AppConfig {
  */
 export const env: AppConfig = {
   NODE_ENV: process.env.NODE_ENV as 'development' | 'production' | 'test' || 'development',
-  PORT: parseInt(process.env.PORT || '3000', 10),
+  PORT: parseInt(process.env.PORT || '8080', 10),
   DATABASE_URL: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/transaction_engine?schema=public',
   REDIS_URL: process.env.REDIS_URL || 'redis://localhost:6379',
   QUEUE_CONCURRENCY: parseInt(process.env.QUEUE_CONCURRENCY || '10', 10),
