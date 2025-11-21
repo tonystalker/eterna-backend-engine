@@ -277,7 +277,7 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "https://eterna-backend-production-38e4.up.railway.app",
+      "value": "https://eterna-backend-engine-production.up.railway.app/",
       "type": "string"
     },
     {
