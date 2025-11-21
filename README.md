@@ -12,7 +12,7 @@ A production-ready, high-performance transaction processing engine built with No
 
 ## 🔗 Quick Links
 
-- Demo Video: [Watch on YouTube](https://www.youtube.com/watch?v=DeDFly4JD9A)
+- Demo Video: [YouTube](https://www.youtube.com/watch?v=hfXA_wqLoh0&feature=youtu.be)
 - Live Deployment : https://eterna-backend-production-38e4.up.railway.app/
 - Postman Collection: [Download here](./postman/collection.json)
 - GitHub Repository: https://github.com/Ayush-0404/Eterna-Backend
