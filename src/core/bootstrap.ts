@@ -6,6 +6,8 @@ import { getDatabaseConnection } from './infrastructure/config/database.config';
 import { disconnectRedis } from './infrastructure/config/redis.config';
 import { transactionProcessor } from './processors/transaction.processor';
 import { pipelineService, streamOrchestrator } from './orchestrators';
+import { initializePipeline } from './orchestrators/pipeline.orchestrator';
+import { initializeStreaming } from './orchestrators/stream.orchestrator';
 
 const logger = createLogger('BOOTSTRAP');
 
@@ -16,6 +18,14 @@ export async function bootstrap() {
     const database = getDatabaseConnection();
     await database.$connect();
     logger.info('✅ Database layer initialized successfully');
+
+    // Initialize transaction processing pipeline
+    await initializePipeline();
+    logger.info('✅ Transaction processing pipeline initialized');
+
+    // Initialize streaming infrastructure
+    await initializeStreaming();
+    logger.info('✅ Streaming infrastructure initialized');
 
     const server = initializeServer();
 
