@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id String @id @default(uuid())
+  
+  // Transaction Identification
+  orderId String @unique
+  
+  // Transaction Details
+  orderType String @default("market")
+  tokenIn   String
+  tokenOut  String
+  amount    Float
+  slippage  Float  @default(0.01)
+  
+  // Execution Details
+  status         String
+  selectedDex    String?
+  executedPrice  Float?
+  txHash         String?
+  
+  // Error Tracking
+  error    String?
+  attempts Int     @default(0)
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([orderId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("orders")
+}
