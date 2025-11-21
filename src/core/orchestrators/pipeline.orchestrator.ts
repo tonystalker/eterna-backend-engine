@@ -1,5 +1,4 @@
 import { Queue, Worker } from 'bullmq';
-import { getRedisConnection } from '../infrastructure/config/redis.config';
 import { env } from '../infrastructure/config/env.config';
 import { createLogger } from '../infrastructure/logging/system.logger';
 import { marketTransactionProcessor } from '../processors/market-transaction.processor';
@@ -14,10 +13,11 @@ let processingWorker: Worker | null = null;
 export async function initializePipeline(): Promise<void> {
   logger.info('Initializing transaction processing pipeline');
 
-  const redis = getRedisConnection();
-
   processingQueue = new Queue(PIPELINE_NAME, {
-    connection: redis,
+    connection: {
+      url: env.REDIS_URL,
+      family: 0, // Critical for Railway IPv6 network
+    },
     defaultJobOptions: {
       removeOnComplete: 100,
       removeOnFail: 50,
@@ -61,7 +61,10 @@ export async function initializePipeline(): Promise<void> {
       }
     },
     {
-      connection: redis,
+      connection: {
+        url: env.REDIS_URL,
+        family: 0, // Critical for Railway IPv6 network
+      },
       concurrency: env.QUEUE_CONCURRENCY,
       limiter: {
         max: env.QUEUE_RATE_LIMIT,
