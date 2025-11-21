@@ -88,9 +88,16 @@ export async function initializePipeline(): Promise<void> {
   });
 
   processingWorker.on('error', (error) => {
-    logger.error('Pipeline worker error', {
-      error: error.message,
-    });
+    // Reduce noise from Redis timeout errors in Railway environment
+    if (error.message.includes('Command timed out')) {
+      logger.warn('Pipeline worker Redis timeout (Railway environment)', {
+        error: error.message,
+      });
+    } else {
+      logger.error('Pipeline worker error', {
+        error: error.message,
+      });
+    }
   });
 
   logger.info('Transaction processing pipeline initialized', {
