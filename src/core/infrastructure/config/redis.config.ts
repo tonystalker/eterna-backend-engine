@@ -15,7 +15,7 @@ export function getRedisConnection(): Redis {
     logger.info('Establishing Redis connection');
     
     redisInstance = new Redis(env.REDIS_URL, {
-      maxRetriesPerRequest: 3,
+      maxRetriesPerRequest: null,
       lazyConnect: true,
       connectTimeout: 10000,
       commandTimeout: 5000,
