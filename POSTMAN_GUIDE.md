@@ -9,7 +9,7 @@ The Postman collection is **100% compatible** with the v2.0 refactored engine. A
 1. Open Postman
 2. Click **Import** button (top left)
 3. Choose **File** tab
-4. Navigate to: `c:\Users\707ay\Desktop\eterna-backend\Eterna-Backend\postman\collection.json`
+4. Navigate to: `\Eterna-Backend\postman\collection.json`
 5. Click **Import**
 
 ### Step 2: Set Base URL (Optional)

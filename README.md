@@ -1,4 +1,4 @@
-# Transaction Processing Engine v2.0
+# Transaction Processing Engine 
 
 A production-ready, high-performance transaction processing engine built with Node.js and TypeScript. Features intelligent DEX routing (Raydium vs Meteora), real-time WebSocket status updates, and concurrent transaction processing with pipeline management.
 
@@ -24,7 +24,6 @@ A production-ready, high-performance transaction processing engine built with No
 
 - ✅ **44 Unit Tests** - All passing with comprehensive coverage
 - ✅ **8 Postman Tests** - Automated API testing with validation
-- ✅ **113,077 transactions/min** - Load tested throughput (1,130x target!)
 - ✅ **100% Success Rate** - 104+ transactions processed without failures
 - ✅ **9ms Average Response** - Ultra-fast transaction submission
 - ✅ **WebSocket Live Updates** - Real-time transaction lifecycle streaming
@@ -66,41 +65,7 @@ A production-ready, high-performance transaction processing engine built with No
 
 ## 🏗️ Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                  Client (HTTP + WebSocket)               │
-└──────────────────────┬──────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────┐
-│              Fastify Server (Gateway)                    │
-│  POST /api/orders/execute → WebSocket Upgrade           │
-└──────────────────────┬──────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────┐
-│           Transaction Handler (Validation)               │
-│  Zod Schema Validation → Create Transaction → Pipeline │
-└──────────────────────┬──────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────┐
-│         Pipeline Orchestrator (10 concurrent processors) │
-│  Rate Limit: 100 transactions/min | Retry: 3 attempts  │
-└──────────────────────┬──────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────┐
-│      Market Transaction Processor (State Machine)       │
-│  PENDING → ROUTING → BUILDING → SUBMITTED → CONFIRMED   │
-└──────────────────────┬──────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────┐
-│         Mock DEX Router (Price Comparison)               │
-│  Fetch Raydium Quote | Fetch Meteora Quote → Best Price │
-└──────────────────────┬──────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────┐
-│      Stream Orchestrator (Redis Pub/Sub)                │
-│  Broadcast Status Updates → Client Receives Events      │
-└──────────────────────────────────────────────────────────┘
-```
+![Architecture Diagram](architecture.png)
 
 ### New Directory Structure (v2.0)
 
@@ -605,26 +570,6 @@ QUEUE_CONCURRENCY=10
 QUEUE_RATE_LIMIT=100
 LOG_LEVEL=info
 ```
-
-### Free Hosting Options
-
-#### Render.com
-1. Connect GitHub repository
-2. Create Web Service
-3. Add PostgreSQL database (free tier)
-4. Add Redis (via Upstash)
-5. Set environment variables
-6. Deploy
-
-#### Railway.app
-1. Create new project from GitHub
-2. Add PostgreSQL plugin
-3. Add Redis plugin
-4. Environment variables auto-configured
-5. Deploy
-
----
-
 ## 📊 Performance Metrics
 
 - **Concurrent Transactions:** 10 simultaneous
@@ -637,26 +582,8 @@ LOG_LEVEL=info
 
 ---
 
-## 🤝 Contributing
 
-Contributions welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
----
-
-## 📧 Contact
-
-For questions or support, please open an issue on GitHub,
-or contact on ayush22125@iiitd.ac.in
-
----
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Fastify](https://www.fastify.io/) - Fast and low overhead web framework
 - [BullMQ](https://docs.bullmq.io/) - Premium queue package
@@ -665,6 +592,3 @@ or contact on ayush22125@iiitd.ac.in
 
 - AI tool assistance used to accelerate development and ensure efficient execution.
 
----
-
-**Built with ❤️ by Ayush using TypeScript and Node.js**
