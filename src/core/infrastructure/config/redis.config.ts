@@ -19,6 +19,9 @@ export function getRedisConnection(): Redis {
       lazyConnect: true,
       connectTimeout: 10000,
       commandTimeout: 5000,
+      enableReadyCheck: false,
+      offlineQueue: false,
+      family: 4, // Force IPv4 for Railway internal network
     });
 
     // Connection event handlers
@@ -45,12 +48,12 @@ export function getRedisConnection(): Redis {
       logger.info('Redis reconnection attempt in progress');
     });
 
-    // Initialize connection
+    // Initialize connection but don't wait for it
     redisInstance.connect().catch((error) => {
-      logger.fatal('Failed to establish Redis connection', {
+      logger.warn('Redis connection failed (continuing without Redis)', {
         error: error.message,
       });
-      throw error;
+      // Don't throw error, just log it
     });
   }
 

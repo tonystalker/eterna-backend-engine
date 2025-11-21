@@ -16,16 +16,37 @@ export async function bootstrap() {
     logger.info('🚀 Initializing Transaction Processing Engine v2.0');
 
     const database = getDatabaseConnection();
-    await database.$connect();
-    logger.info('✅ Database layer initialized successfully');
+    try {
+      await database.$connect();
+      logger.info('✅ Database layer initialized successfully');
+    } catch (dbError) {
+      logger.error('❌ Database connection failed', {
+        error: dbError instanceof Error ? dbError.message : String(dbError),
+      });
+      // Continue without database for now
+    }
 
     // Initialize transaction processing pipeline
-    await initializePipeline();
-    logger.info('✅ Transaction processing pipeline initialized');
+    try {
+      await initializePipeline();
+      logger.info('✅ Transaction processing pipeline initialized');
+    } catch (pipelineError) {
+      logger.error('❌ Pipeline initialization failed', {
+        error: pipelineError instanceof Error ? pipelineError.message : String(pipelineError),
+      });
+      // Continue without pipeline for now
+    }
 
     // Initialize streaming infrastructure
-    await initializeStreaming();
-    logger.info('✅ Streaming infrastructure initialized');
+    try {
+      await initializeStreaming();
+      logger.info('✅ Streaming infrastructure initialized');
+    } catch (streamError) {
+      logger.error('❌ Streaming initialization failed', {
+        error: streamError instanceof Error ? streamError.message : String(streamError),
+      });
+      // Continue without streaming for now
+    }
 
     const server = initializeServer();
 
