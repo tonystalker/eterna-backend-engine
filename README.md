@@ -65,9 +65,9 @@ A production-ready, high-performance transaction processing engine built with No
 
 ## 🏗️ Architecture
 
-![Architecture Diagram](architecture.png)
+![Architecture Diagram](sys-arch.png)
 
-### New Directory Structure (v2.0)
+### Directory Structure
 
 ```
 src/core/
@@ -108,21 +108,6 @@ src/core/
 2. **Architectural Focus** - Allows showcasing robust pipeline management, error handling, and concurrent processing without the complexity of price monitoring
 3. **Production Patterns** - Demonstrates critical infrastructure (routing, retries, state machines) that extends to other transaction types
 
-### Extension to Other Transaction Types
-
-The architecture is designed for easy extension via the **Factory Pattern**:
-
-#### **Limit Transactions**
-Add a `LimitTransactionProcessor` that:
-- Monitors current price via periodic polling (Redis pub/sub)
-- Compares against target price before execution
-- Triggers `MarketTransactionProcessor` when price condition is met
-
-#### **Sniper Transactions**
-Add a `SniperTransactionProcessor` that:
-- Subscribes to Solana token launch events (via `@solana/web3.js` program subscriptions)
-- Detects liquidity pool creation on Raydium/Meteora
-- Immediately executes swap on detection
 
 **Implementation**:
 ```typescript
@@ -235,7 +220,7 @@ npm start
 {
   "orderId": "ord_1699451234567_abc123",
   "status": "pending",
-  "timestamp": "2025-11-08T10:30:00.000Z",
+  "timestamp": "2025-11-21T10:30:00.000Z",
   "message": "Order created successfully. Connect to WebSocket for real-time updates.",
   "websocket": "ws://localhost:3000/api/orders/ord_1699451234567_abc123/stream"
 }
@@ -265,7 +250,7 @@ npm start
   "websocket": {
     "connections": 8
   },
-  "timestamp": "2025-11-08T10:35:00.000Z"
+  "timestamp": "2025-11-21T10:35:00.000Z"
 }
 ```
 
@@ -277,7 +262,7 @@ npm start
 ```json
 {
   "status": "ok",
-  "timestamp": "2025-11-08T10:30:00.000Z",
+  "timestamp": "2025-11-21T10:30:00.000Z",
   "uptime": 3600.5
 }
 ```
@@ -387,7 +372,7 @@ failed (on error)
 
 ## 🧠 Design Decisions
 
-### 1. **Complete Architecture Refactor (v2.0)**
+### 1. **Complete Architecture Refactor **
 
 **Decision:** Complete restructure with new naming conventions and modular design
 
