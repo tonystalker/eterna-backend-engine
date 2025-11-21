@@ -12,7 +12,9 @@ let redisInstance: Redis | null = null;
  */
 export function getRedisConnection(): Redis {
   if (!redisInstance) {
-    logger.info('Establishing Redis connection');
+    logger.info('Establishing Redis connection', {
+      redisUrl: env.REDIS_URL ? env.REDIS_URL.replace(/\/\/.*@/, '//***:***@') : 'undefined',
+    });
     
     redisInstance = new Redis(env.REDIS_URL, {
       maxRetriesPerRequest: null,
@@ -21,7 +23,7 @@ export function getRedisConnection(): Redis {
       commandTimeout: 5000,
       enableReadyCheck: false,
       offlineQueue: false,
-      family: 4, // Force IPv4 for Railway internal network
+      family: 0, // Support Railway's IPv6 private network
     });
 
     // Connection event handlers
